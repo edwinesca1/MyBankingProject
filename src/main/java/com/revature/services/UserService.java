@@ -1,11 +1,7 @@
 package com.revature.services;
 
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import com.revature.dao.UserDao;
-import com.revature.dao.UserDaoDB;
 import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.UserDoesNotExistException;
 import com.revature.exceptions.UsernameAlreadyExistsException;
@@ -14,7 +10,7 @@ import com.revature.models.User;
 
 public class UserService {
 	
-	private static UserDao uDao;
+	private UserDao uDao;
 	
 	public UserService(UserDao u) {
 		this.uDao = u;

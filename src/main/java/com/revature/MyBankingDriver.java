@@ -40,7 +40,7 @@ public class MyBankingDriver {
 					try {
 						uDriver = uServ.signIn(username, password);
 						System.out.println("Welcome "+ uDriver.getUserUserName());
-					} catch(InvalidCredentialsException e) {
+					} catch(Exception e) {
 						System.out.println("Invalid Username or Password.");
 					}
 				}
@@ -69,6 +69,6 @@ public class MyBankingDriver {
 				//System.out.print("Press 1 for yes, press 2 to finish your session: ");
 			}
 			
-		}
+		}scan.close();
 	}
 }
