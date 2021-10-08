@@ -1,1 +1,7 @@
 2021-10-07 18:22:14 WARN  Logging:39 - User does not exist in the data base
+2021-10-07 18:33:00 WARN  Logging:39 - User does not exist in the data base
+2021-10-07 18:40:14 WARN  Logging:39 - User does not exist in the data base
+2021-10-07 18:50:37 WARN  Logging:39 - User does not exist in the data base
+2021-10-07 18:51:04 WARN  Logging:39 - User does not exist in the data base
+2021-10-07 18:51:32 WARN  Logging:42 - User tried to logIn with invalid credentials
+2021-10-07 18:56:23 INFO  Logging:25 - User successfully created

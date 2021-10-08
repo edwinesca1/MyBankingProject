@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import com.revature.dao.UserDao;
 import com.revature.dao.UserDaoDB;
-import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -37,6 +36,7 @@ public class MyBankingDriver {
 					String username = scan.nextLine();
 					System.out.print("Enter your password: ");
 					String password = scan.nextLine();
+					System.out.println();
 					try {
 						uDriver = uServ.signIn(username, password);
 						System.out.println("Welcome "+ uDriver.getUserUserName());
@@ -55,10 +55,11 @@ public class MyBankingDriver {
 					String username = scan.nextLine();
 					System.out.print("Enter your password: ");
 					String password = scan.nextLine();
+					System.out.println();
 					
 					try {
 						uDriver = uServ.signUp(first, last, email, username, password);
-						System.out.println("You may now login with the username: " + uDriver.getUserUserName());
+						System.out.println("You may now sign in with the username: " + uDriver.getUserUserName());
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println("Sorry we could not process your request");
