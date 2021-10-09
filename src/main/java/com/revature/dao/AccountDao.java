@@ -17,7 +17,7 @@ public interface AccountDao {
 	
 	void createAccount(Account acc) throws SQLException;
 	
-	void updateAccountStatus(Account acc) throws SQLException;
+	int updateAccountStatus(String aNum, String aUsername, int newType) throws SQLException;
 	
 	void approveDenyAccount(Account acc) throws SQLException;
 	

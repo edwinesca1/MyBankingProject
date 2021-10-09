@@ -25,7 +25,7 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	//Retreiving info from DB
+	//Retrieving info from DB
 	public User(int userId, String userFirtsName, String userLastName, String userEmail,
 			String userUserName, String userPassword) {
 		super();

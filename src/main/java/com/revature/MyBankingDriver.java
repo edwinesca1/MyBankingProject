@@ -52,6 +52,7 @@ public class MyBankingDriver {
 					try {
 						uDriver = uServ.signIn(username, password);
 						System.out.println("Welcome "+ uDriver.getUserUserName());
+						System.out.println();
 					} catch(Exception e) {
 						System.out.println("Invalid Username or Password.");
 					}
@@ -92,7 +93,7 @@ public class MyBankingDriver {
 				System.out.println("Account Balance: " + accounts.getAccountBalance());
 				System.out.println();
 			}  */
-			
+/*			
 			//Applying for a new Account
 			int newAccountStatus = 0; 
 			System.out.println("Select the type of account you want to apply");
@@ -110,11 +111,12 @@ public class MyBankingDriver {
 				System.out.println("Sorry we could not process your request");
 				System.out.println("Please try again later...");
 			}
-			
+	*/		
 			//Approving or denying new accounts requests
 			//Listing all the pending approval accounts
 			List<AccountsDisplay> acDisplay = accServ.getAllAccountsInfo(0);
 			System.out.println("Accounts information List");
+			System.out.println();
 			for(AccountsDisplay accounts: acDisplay) {
 				System.out.println("User: " + accounts.getUsername());
 				System.out.println("Account type: " + accounts.getAccountType());
@@ -129,8 +131,23 @@ public class MyBankingDriver {
 			String accUsername = scan.nextLine();
 			System.out.print("Press 1 to Approve account, press 2 to deny account: ");
 			int newStatus = scan.nextInt();
+			newStatus = (newStatus == 1) ? 1 : 2;
+			scan.nextLine(); // after using nextInt(), next() or other next method leaves a blank jump line, this helps to consume that and avoid troubles.
 			System.out.println("Are you sure you want to perform this action?");
 			System.out.print("Press 'Y' to continue, press 'N' to cancel: ");
+			scan.nextLine();
+			String confirm = scan.nextLine();
+			
+			try {
+				int rowsAffected = accServ.updateAccountStatus(accNumber, accUsername, newStatus);
+				if(rowsAffected != 0) {
+					System.out.println("Update finalized.");
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("Sorry we could not process your request");
+				System.out.println("Please try again later...");
+			}
 		  }
 		}scan.close();
 	}

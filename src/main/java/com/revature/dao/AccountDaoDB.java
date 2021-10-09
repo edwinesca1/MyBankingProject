@@ -45,9 +45,19 @@ public class AccountDaoDB implements AccountDao{
 	}
 
 	@Override
-	public void updateAccountStatus(Account acc) throws SQLException {
+	public int updateAccountStatus(String aNum, String aUsername, int newType) throws SQLException {
 		
+		Connection con = conUtil.getConnection();
 		
+		String sql = "update table_account "
+				+ "set	account_status = "+ newType
+				+ " where account_number = '"+ aNum
+				+ "' and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ aUsername +"')";
+		
+		Statement s = con.createStatement();
+		int rowsAffected = s.executeUpdate(sql);
+		
+		return rowsAffected;
 	}
 
 	@Override

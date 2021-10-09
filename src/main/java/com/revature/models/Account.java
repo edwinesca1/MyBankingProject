@@ -13,7 +13,7 @@ public class Account {
 	{
 		
 	}
-	
+
 	//Sending info to DB
 	public Account(String accountNumer, double accountBalance, int accountStatus, int accountTypeId, int userId) {
 		super();

@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.dao.AccountDao;
@@ -17,10 +18,12 @@ public class AccountService {
 			this.accDao = acc;
 		}
 		
+		//Method to get accounts info
 		public List<AccountsDisplay> getAllAccountsInfo(int t){
 			return accDao.getAllAccountsInfo(t);
 		}
 		
+		//create a new account 
 		public Account createNewAccount(double balance, int accStatus, int typeAccount, int userId) {
 			
 			Account a = new Account(balance, accStatus, typeAccount, userId);
@@ -34,5 +37,19 @@ public class AccountService {
 			}
 			
 			return a;
+		}
+		
+		public int updateAccountStatus(String accNumber, String username, int newStatus) {
+			
+			int rowsaffectedUpdate = 0;
+			
+			try {
+				rowsaffectedUpdate = accDao.updateAccountStatus(accNumber, username, newStatus);
+				Logging.logger.info("Updating account status request completed");
+			}catch(SQLException e) {
+				Logging.logger.warn("Request failed");
+			}
+			
+			return rowsaffectedUpdate;
 		}
 }
