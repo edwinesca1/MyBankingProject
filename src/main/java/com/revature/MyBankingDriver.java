@@ -1,16 +1,24 @@
 package com.revature;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.revature.dao.AccountDao;
+import com.revature.dao.AccountDaoDB;
 import com.revature.dao.UserDao;
 import com.revature.dao.UserDaoDB;
+import com.revature.models.Account;
+import com.revature.models.AccountsDisplay;
 import com.revature.models.User;
+import com.revature.services.AccountService;
 import com.revature.services.UserService;
 
 public class MyBankingDriver {
 	
 	private static UserDao uDao = new UserDaoDB();
 	private static UserService uServ = new UserService(uDao);
+	private static AccountDao accDao = new AccountDaoDB();
+	private static AccountService accServ = new AccountService(accDao);
 	
 		
 	public static void main(String[] args)
@@ -22,15 +30,19 @@ public class MyBankingDriver {
 		boolean done = false;
 		
 		User uDriver = null;
+		Account accDriver = null;
 		
 		while(!done) {
 			
+			//Checking if there is a user signed in
 			if(uDriver == null) {
 				System.out.println("My Banking System");
 				System.out.println("--> Press 1 to LogIn");
 				System.out.println("--> Press 2 to SignUp");
 				System.out.print("Option: ");
 				int opt = Integer.parseInt(scan.nextLine());
+				
+				//User try to sign In if not, then Sign up
 				if(opt == 1) {
 					System.out.print("Enter your username: ");
 					String username = scan.nextLine();
@@ -66,10 +78,60 @@ public class MyBankingDriver {
 						System.out.println("Please try again later...");
 					}
 				}
-				//System.out.println("Would you like to make another transaction?");
-				//System.out.print("Press 1 for yes, press 2 to finish your session: ");
+			}else {
+			
+	
+			
+			//Retrieve Active accounts information and balances
+/*			List<AccountsDisplay> acDisplay = accServ.getAllAccountsInfo(1);
+			System.out.println("Accounts information List");
+			for(AccountsDisplay accounts: acDisplay) {
+				System.out.println("User: " + accounts.getUsername());
+				System.out.println("Account type: " + accounts.getAccountType());
+				System.out.println("Account Number: " + accounts.getAccountNumber());
+				System.out.println("Account Balance: " + accounts.getAccountBalance());
+				System.out.println();
+			}  */
+			
+			//Applying for a new Account
+			int newAccountStatus = 0; 
+			System.out.println("Select the type of account you want to apply");
+			System.out.print("press 1 for Checking account, press 2 for Joint account: ");
+			int typeAccount = scan.nextInt();
+			System.out.print("Enter the account opening balance: ");
+			double startBalance = scan.nextDouble();
+			System.out.println();
+			
+			try {
+				accDriver = accServ.createNewAccount(startBalance, newAccountStatus, typeAccount, uDriver.getUserId());
+				System.out.println("Processing your request.");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Sorry we could not process your request");
+				System.out.println("Please try again later...");
 			}
 			
+			//Approving or denying new accounts requests
+			//Listing all the pending approval accounts
+			List<AccountsDisplay> acDisplay = accServ.getAllAccountsInfo(0);
+			System.out.println("Accounts information List");
+			for(AccountsDisplay accounts: acDisplay) {
+				System.out.println("User: " + accounts.getUsername());
+				System.out.println("Account type: " + accounts.getAccountType());
+				System.out.println("Account Number: " + accounts.getAccountNumber());
+				System.out.println("Account Balance: " + accounts.getAccountBalance());
+				System.out.println();
+			}
+			
+			System.out.print("Enter the account number: ");
+			String accNumber = scan.nextLine();
+			System.out.print("Enter the username of the account owner: ");
+			String accUsername = scan.nextLine();
+			System.out.print("Press 1 to Approve account, press 2 to deny account: ");
+			int newStatus = scan.nextInt();
+			System.out.println("Are you sure you want to perform this action?");
+			System.out.print("Press 'Y' to continue, press 'N' to cancel: ");
+		  }
 		}scan.close();
 	}
 }

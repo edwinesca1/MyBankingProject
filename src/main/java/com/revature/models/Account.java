@@ -23,6 +23,16 @@ public class Account {
 		this.accountTypeId = accountTypeId;
 		this.userId = userId;
 	}
+	
+	
+	//Used to create new accounts
+	public Account(double accountBalance, int accountStatus, int accountTypeId, int userId) {
+		super();
+		this.accountBalance = accountBalance;
+		this.accountStatus = accountStatus;
+		this.accountTypeId = accountTypeId;
+		this.userId = userId;
+	}
 
 	//Retriveing info from DB
 	public Account(int accountId, String accountNumer, double accountBalance, int accountStatus, int accountTypeId,
