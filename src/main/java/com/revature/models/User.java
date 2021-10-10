@@ -8,6 +8,7 @@ public class User {
 	private String userEmail;
 	private String userUserName;
 	private String userPassword;
+	private int userRole;
 	
 	public User()
 	{
@@ -27,7 +28,7 @@ public class User {
 
 	//Retrieving info from DB
 	public User(int userId, String userFirtsName, String userLastName, String userEmail,
-			String userUserName, String userPassword) {
+			String userUserName, String userPassword, int userRole) {
 		super();
 		this.userId = userId;
 		this.userFirtsName = userFirtsName;
@@ -35,6 +36,7 @@ public class User {
 		this.userEmail = userEmail;
 		this.userUserName = userUserName;
 		this.userPassword = userPassword;
+		this.userRole = userRole;
 	}
 
 	public int getUserId() {
@@ -90,5 +92,13 @@ public class User {
 		return "User [userId=" + userId + ", userFirtsName=" + userFirtsName + ", userLastName=" + userLastName
 				+ ", userEmail=" + userEmail + ", userUserName=" + userUserName
 				+ ", userPassword=" + userPassword + "]";
+	}
+
+	public int getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(int userRole) {
+		this.userRole = userRole;
 	}
 }

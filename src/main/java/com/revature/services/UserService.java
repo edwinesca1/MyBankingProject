@@ -1,6 +1,8 @@
 package com.revature.services;
 
 import java.sql.SQLException;
+import java.util.List;
+
 import com.revature.dao.UserDao;
 import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.UserDoesNotExistException;
@@ -14,6 +16,10 @@ public class UserService {
 	
 	public UserService(UserDao u) {
 		this.uDao = u;
+	}
+	
+	public List<User> getAllUsers(){
+		return uDao.getAllUsers();
 	}
 	
 	public User signUp(String first, String last, String email, String username, String password) throws UsernameAlreadyExistsException{

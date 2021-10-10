@@ -24,3 +24,5 @@
 2021-10-09 15:41:38 INFO  Logging:48 - Updating account status request completed
 2021-10-09 15:49:37 INFO  Logging:45 - User logged in successfully
 2021-10-09 15:50:15 INFO  Logging:48 - Updating account status request completed
+2021-10-09 16:41:24 WARN  Logging:48 - User tried to logIn with invalid credentials
+2021-10-09 16:41:36 INFO  Logging:51 - User logged in successfully
