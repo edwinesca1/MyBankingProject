@@ -24,7 +24,7 @@ public class UserDaoDB implements UserDao{
 			Connection con = conUtil.getConnection();
 			
 			//Creating a simple statement
-			String sql = "SELECT * FROM table_user";
+			String sql = "SELECT * FROM table_user where user_role = 0";
 			
 			//We need to create a statement with the sql string
 			Statement s = con.createStatement();
@@ -62,6 +62,7 @@ public class UserDaoDB implements UserDao{
 				user.setUserEmail(rs.getString(4));
 				user.setUserUserName(rs.getString(5));
 				user.setUserPassword(rs.getString(6));
+				user.setUserRole(rs.getInt(7));
 			}
 			return user;
 			
