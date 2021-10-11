@@ -140,6 +140,32 @@ public class MyBankingDriver {
 						
 					case 2:
 						
+						//Deposit transaction
+						System.out.println();
+						System.out.print("Enter the amount for the transaction: ");
+						double aDeposit = scan.nextDouble();
+						scan.nextLine();
+						System.out.print("Enter the account number where the money will be deposit: ");
+						String accDNumber = scan.nextLine();
+						System.out.println("Processing your request.");
+						System.out.println();
+						
+							try {
+								int rowsAffected = accServ.depositIntoAccount(aDeposit, uDriver.getUserUserName(), accDNumber);
+								if(rowsAffected != 0) {
+									acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accDNumber);
+									for(AccountsDisplay accounts2: acDisplay) {
+										System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
+										System.out.println();
+									}
+								}
+							}catch(Exception e) {
+								System.out.println();
+								e.printStackTrace();
+								System.out.println("Sorry we could not process your request");
+								System.out.println("Please try again later...");
+							}
+						
 						break;
 						
 					case 3:

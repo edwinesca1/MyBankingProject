@@ -59,12 +59,7 @@ public class AccountDaoDB implements AccountDao{
 		
 		return rowsAffected;
 	}
-
-	@Override
-	public List<Account> getAllAccounts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<AccountsDisplay> getAllAccountsInfo(int t) {
@@ -149,13 +144,29 @@ public class AccountDaoDB implements AccountDao{
 		Connection con = conUtil.getConnection();
 		
 		String sql = "update table_account "
-				+ "set	account_balance = (account_balance - "+ amount +")"
-				+ "where account_status = 1 and account_balance >= "+ amount +" and account_number = '"+accNumber+"' "
-				+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
+					+ "set	account_balance = (account_balance - "+ amount +")"
+					+ "where account_status = 1 and account_balance >= "+ amount +" and account_number = '"+accNumber+"' "
+					+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
 		
 		Statement s = con.createStatement();
 		int rowsAffected = s.executeUpdate(sql);
 
+		return rowsAffected;
+	}
+
+	@Override
+	public int depositIntoAccount(double amount, String username, String accNumber) throws SQLException {
+		
+		Connection con = conUtil.getConnection();
+		
+		String sql = "update table_account "
+					+ "set	account_balance = (account_balance + "+ amount +")"
+					+ "where account_status = 1 and account_number = '"+accNumber+"' "
+					+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
+		
+		Statement s = con.createStatement();
+		int rowsAffected = s.executeUpdate(sql);
+		
 		return rowsAffected;
 	}
 	

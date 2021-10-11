@@ -73,4 +73,18 @@ public class AccountService {
 			
 			return rowsAffectedWithdraw;
 		}
+		
+		public int depositIntoAccount(double amount, String username, String accNumber) {
+			
+			int rowsAffectedWithdraw = 0;
+			
+			try {
+				rowsAffectedWithdraw = accDao.depositIntoAccount(amount, username, accNumber);
+				Logging.logger.info("Transaction completed");
+			}catch(Exception e) {
+				Logging.logger.warn("Request failed");
+			}
+			
+			return rowsAffectedWithdraw;
+		}
 }

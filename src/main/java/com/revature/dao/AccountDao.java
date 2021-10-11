@@ -13,8 +13,6 @@ public interface AccountDao {
 	
 	List<AccountsDisplay> getSpecificAccount(String username, String accNumber);
 	
-	List<Account> getAllAccounts();
-	
 	Account getAccountByusername(String username);
 	
 	void createAccount(Account acc) throws SQLException;
@@ -24,4 +22,6 @@ public interface AccountDao {
 	void cancelAccount(Account acc) throws SQLException;
 	
 	int withdrawFromAccount(double amount, String username, String accNumber) throws SQLException;
+	
+	int depositIntoAccount(double amount, String username, String accNumber) throws SQLException;
 }
