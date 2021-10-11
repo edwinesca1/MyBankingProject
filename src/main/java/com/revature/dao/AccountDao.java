@@ -11,6 +11,8 @@ public interface AccountDao {
 	 
 	List<AccountsDisplay> getAllAccountsInfo(int t);
 	
+	List<AccountsDisplay> getSpecificAccount(String username, String accNumber);
+	
 	List<Account> getAllAccounts();
 	
 	Account getAccountByusername(String username);
@@ -19,7 +21,7 @@ public interface AccountDao {
 	
 	int updateAccountStatus(String aNum, String aUsername, int newType) throws SQLException;
 	
-	void approveDenyAccount(Account acc) throws SQLException;
-	
 	void cancelAccount(Account acc) throws SQLException;
+	
+	int withdrawFromAccount(double amount, String username, String accNumber) throws SQLException;
 }

@@ -101,9 +101,45 @@ public class MyBankingDriver {
 					switch(opt) {
 					
 					case 1:
+						
+						//Withdraw money just available with active accounts
+						boolean comp = true;
+						System.out.println();
+						System.out.print("Enter the amount for the transaction: ");
+						double aWithdraw = scan.nextDouble();
+						scan.nextLine();
+						System.out.print("Enter the account number from which you will withdraw the money: ");
+						String accNumber = scan.nextLine();
+						System.out.println("Processing your request.");
+						System.out.println();
+						
+						List<AccountsDisplay> acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accNumber);
+						for(AccountsDisplay accounts: acDisplay) {
+							comp = aWithdraw < accounts.getAccountBalance();
+						}
+							if(comp != true) {
+								System.out.println("Transaction canceled, insufficient funds");
+							}else {
+								try {
+									int rowsAffected = accServ.withdrawFromAccount(aWithdraw, uDriver.getUserUserName(), accNumber);
+									if(rowsAffected != 0) {
+										acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accNumber);
+										for(AccountsDisplay accounts2: acDisplay) {
+											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
+											System.out.println();
+										}
+									}
+								}catch(Exception e) {
+								System.out.println();
+								e.printStackTrace();
+								System.out.println("Sorry we could not process your request");
+								System.out.println("Please try again later...");
+								}
+							}
 						break;
 						
 					case 2:
+						
 						break;
 						
 					case 3:

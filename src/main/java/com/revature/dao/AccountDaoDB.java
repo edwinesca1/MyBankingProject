@@ -102,16 +102,61 @@ public class AccountDaoDB implements AccountDao{
 	}
 
 	@Override
-	public void approveDenyAccount(Account acc) throws SQLException {
-		
-		
+	public void cancelAccount(Account acc) throws SQLException {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cancelAccount(Account acc) throws SQLException {
-		// TODO Auto-generated method stub
+	public List<AccountsDisplay> getSpecificAccount(String username, String accNumber) {
 		
+		List<AccountsDisplay> accountInfo = new ArrayList<AccountsDisplay>();
+		
+		try {
+			Connection con = conUtil.getConnection();
+			
+			String sql = "select u.user_username as username,"
+					+ "tat.account_type_name as account_type,"
+					+ "ac.account_number,"
+					+ "ac.account_balance as balance "
+					+ "from   table_user u "
+					+ "inner join table_account ac"
+					+ "		on u.user_id = ac.account_user_id "
+					+ "inner join table_account_types tat"
+					+ "		on ac.account_type_id = tat.account_type_id "
+					+ "where ac.account_number = '"+ accNumber +"'"
+					+ " and ac.account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"') "
+					+ "group by u.user_username,"
+					+ "		 tat.account_type_name,"
+					+ "		 ac.account_number,"
+					+ "		 ac.account_balance";
+			
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) {
+					accountInfo.add(new AccountsDisplay(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4)));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return accountInfo;
+	}
+
+	@Override
+	public int withdrawFromAccount(double amount, String username, String accNumber) throws SQLException{
+		
+		Connection con = conUtil.getConnection();
+		
+		String sql = "update table_account "
+				+ "set	account_balance = (account_balance - "+ amount +")"
+				+ "where account_status = 1 and account_balance >= "+ amount +" and account_number = '"+accNumber+"' "
+				+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
+		
+		Statement s = con.createStatement();
+		int rowsAffected = s.executeUpdate(sql);
+
+		return rowsAffected;
 	}
 	
 	

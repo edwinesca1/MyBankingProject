@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.revature.dao.AccountDao;
 import com.revature.exceptions.AccountRequestDeniedException;
+import com.revature.exceptions.InsufficientFundsException;
+import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.UserDoesNotExistException;
 import com.revature.logging.Logging;
 import com.revature.models.Account;
 import com.revature.models.AccountsDisplay;
@@ -21,6 +24,10 @@ public class AccountService {
 		//Method to get accounts info
 		public List<AccountsDisplay> getAllAccountsInfo(int t){
 			return accDao.getAllAccountsInfo(t);
+		}
+		
+		public List<AccountsDisplay> getSpecificAccount(String username, String accNumber) {
+			return accDao.getSpecificAccount(username, accNumber);		
 		}
 		
 		//create a new account 
@@ -41,15 +48,29 @@ public class AccountService {
 		
 		public int updateAccountStatus(String accNumber, String username, int newStatus) {
 			
-			int rowsaffectedUpdate = 0;
+			int rowsAffectedUpdate = 0;
 			
 			try {
-				rowsaffectedUpdate = accDao.updateAccountStatus(accNumber, username, newStatus);
+				rowsAffectedUpdate = accDao.updateAccountStatus(accNumber, username, newStatus);
 				Logging.logger.info("Updating account status request completed");
 			}catch(SQLException e) {
 				Logging.logger.warn("Request failed");
 			}
 			
-			return rowsaffectedUpdate;
+			return rowsAffectedUpdate;
+		}
+		
+		public int withdrawFromAccount(double amount, String username, String accNumber) {
+				
+			int rowsAffectedWithdraw = 0;
+			
+			try {
+				rowsAffectedWithdraw = accDao.withdrawFromAccount(amount, username, accNumber);
+				Logging.logger.info("Transaction completed");
+			}catch(Exception e) {
+				Logging.logger.warn("Request failed");
+			}
+			
+			return rowsAffectedWithdraw;
 		}
 }
