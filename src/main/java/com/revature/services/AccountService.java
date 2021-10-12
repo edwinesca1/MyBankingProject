@@ -39,7 +39,7 @@ public class AccountService {
 				accDao.createAccount(a);
 				Logging.logger.info("Request for new account completed");
 			}catch(SQLException e) {
-				Logging.logger.warn("Request denied!");
+				Logging.logger.warn("New account request failed!");
 				throw new AccountRequestDeniedException();
 			}
 			
@@ -54,7 +54,7 @@ public class AccountService {
 				rowsAffectedUpdate = accDao.updateAccountStatus(accNumber, username, newStatus);
 				Logging.logger.info("Updating account status request completed");
 			}catch(SQLException e) {
-				Logging.logger.warn("Request failed");
+				Logging.logger.warn("Aproving/Denying request failed");
 			}
 			
 			return rowsAffectedUpdate;
@@ -66,9 +66,9 @@ public class AccountService {
 			
 			try {
 				rowsAffectedWithdraw = accDao.withdrawFromAccount(amount, username, accNumber);
-				Logging.logger.info("Transaction completed");
+				Logging.logger.info("Withdraw transaction completed");
 			}catch(Exception e) {
-				Logging.logger.warn("Request failed");
+				Logging.logger.warn("Withdraw money request failed");
 			}
 			
 			return rowsAffectedWithdraw;
@@ -80,11 +80,26 @@ public class AccountService {
 			
 			try {
 				rowsAffectedWithdraw = accDao.depositIntoAccount(amount, username, accNumber);
-				Logging.logger.info("Transaction completed");
+				Logging.logger.info("Deposit transaction completed");
 			}catch(Exception e) {
-				Logging.logger.warn("Request failed");
+				Logging.logger.warn("Deposit money request failed");
 			}
 			
 			return rowsAffectedWithdraw;
+		}
+		
+		public int transferBetweenAccounts(double amount, String username, String accNumber1, String accNumber2,
+				String firstName, String lastName) {
+				
+			int rowsNumber = 0;
+			
+			try {
+				rowsNumber = accDao.transferBetweenAccounts(amount, username, accNumber1, accNumber2, firstName, lastName);
+				Logging.logger.info(" Transfer between accounts transaction completed");
+			}catch(SQLException e) {
+				Logging.logger.warn("Transfer money request failed");
+			}
+			
+			return rowsNumber;
 		}
 }

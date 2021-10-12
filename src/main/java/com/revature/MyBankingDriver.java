@@ -1,7 +1,10 @@
 package com.revature;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.revature.dao.AccountDao;
 import com.revature.dao.AccountDaoDB;
@@ -32,16 +35,30 @@ public class MyBankingDriver {
 		User uDriver = null;
 		Account accDriver = null;
 		
+		String regex = "[+-]?[0-9]+";
+
+	      // Create a Pattern object
+		Pattern p = Pattern.compile(regex);
+		
 		while(!done) {
 			
 			//Checking if there is a user signed in
 			if(uDriver == null) {
+				System.out.println();
 				System.out.println("My Banking System");
 				System.out.println("--> Press 1 to LogIn");
 				System.out.println("--> Press 2 to SignUp");
 				System.out.println("To exit press number 9");
 				System.out.print("Option: ");
-				int opt = Integer.parseInt(scan.nextLine());
+				int opt = 0;
+				String val = scan.nextLine();
+				System.out.println();
+				if(val.equals("1") || val.equals("2") || val.equals("9")) {
+					opt = Integer.parseInt(val);	
+				}else {
+					System.out.print("Enter a valid option.");
+					System.out.println();
+				}
 				
 				//User try to sign In if not, then Sign up
 				if(opt == 1) {
@@ -52,8 +69,7 @@ public class MyBankingDriver {
 					System.out.println();
 					try {
 						uDriver = uServ.signIn(username, password);
-						System.out.println("Welcome "+ uDriver.getUserUserName());
-						System.out.println();
+						System.out.println("---Welcome "+ uDriver.getUserUserName() + "---");
 					} catch(Exception e) {
 						System.out.println("Invalid Username or Password.");
 					}
@@ -67,6 +83,7 @@ public class MyBankingDriver {
 					String email = scan.nextLine();
 					System.out.print("Enter your username: ");
 					String username = scan.nextLine();
+					username = username.replaceAll("[^a-zA-Z0-9\\s]", "");
 					System.out.print("Enter your password: ");
 					String password = scan.nextLine();
 					System.out.println();
@@ -82,6 +99,7 @@ public class MyBankingDriver {
 				}else if(opt == 9) {
 					done = true;
 				}
+				
 			}else {
 				
 				//Role 0 means user is a customer
@@ -95,8 +113,12 @@ public class MyBankingDriver {
 				  //System.out.println("5) Apply for a joint account");
 					System.out.println("To exit press number 9");
 					System.out.print("Enter the option number: ");
-					int opt = scan.nextInt();
-					scan.nextLine();
+					int opt = 0;
+					String val = scan.nextLine();
+					System.out.println();
+					if(val.equals("1") || val.equals("2") || val.equals("3") || val.equals("4") || val.equals("9")) {
+						opt = Integer.parseInt(val);	
+					}
 					
 					switch(opt) {
 					
@@ -104,7 +126,6 @@ public class MyBankingDriver {
 						
 						//Withdraw money just available with active accounts
 						boolean comp = true;
-						System.out.println();
 						System.out.print("Enter the amount for the transaction: ");
 						double aWithdraw = scan.nextDouble();
 						scan.nextLine();
@@ -128,6 +149,9 @@ public class MyBankingDriver {
 											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
 											System.out.println();
 										}
+									}else {
+										System.out.println("Sorry we could not process your request");
+										System.out.println("Please try again later...");
 									}
 								}catch(Exception e) {
 								System.out.println();
@@ -141,7 +165,6 @@ public class MyBankingDriver {
 					case 2:
 						
 						//Deposit transaction
-						System.out.println();
 						System.out.print("Enter the amount for the transaction: ");
 						double aDeposit = scan.nextDouble();
 						scan.nextLine();
@@ -158,6 +181,9 @@ public class MyBankingDriver {
 										System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
 										System.out.println();
 									}
+								}else {
+									System.out.println("Sorry we could not process your request");
+									System.out.println("Please try again later...");
 								}
 							}catch(Exception e) {
 								System.out.println();
@@ -169,22 +195,54 @@ public class MyBankingDriver {
 						break;
 						
 					case 3:
+						
+							//Transfer between account
+							System.out.print("Enter the amount for the transaction: ");
+							double aTransfer = scan.nextDouble();
+							scan.nextLine();
+							System.out.print("Enter the account number from which you will transfer the money: ");
+							String accTransferOrigin = scan.nextLine();
+							System.out.print("Enter the account number where the money will be transfered: ");
+							String accTransferDest = scan.nextLine();
+							System.out.print("Enter the first name of the account owner: ");
+							String accTransferOwnerFirstName = scan.nextLine();
+							System.out.print("Enter the Last name of the account owner: ");
+							String accTransferOwnerLastName = scan.nextLine();
+							System.out.println("Processing your request.");
+							System.out.println();
+							
+							try {
+								int numRows = accServ.transferBetweenAccounts(aTransfer, uDriver.getUserUserName(), accTransferOrigin, accTransferDest, accTransferOwnerFirstName, accTransferOwnerLastName);
+								if(numRows != 0) {
+									acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accTransferOrigin);
+									for(AccountsDisplay accounts2: acDisplay) {
+										System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
+										System.out.println();
+									}
+								}
+							}catch(Exception e) {
+								e.printStackTrace();
+								System.out.println("Sorry we could not process your request");
+								System.out.println("Please try again later...");
+							}
+							
+							
 						break;
 						
 					case 4:
 							//Applying for a new account
 							int newAccountStatus = 0; 
-							System.out.println();
 							System.out.println("Select the type of account you want to apply");
 							System.out.print("press 1 for Checking account, press 2 for Joint account: ");
 							int typeAccount = scan.nextInt();
 							System.out.print("Enter the account opening balance: ");
 							double startBalance = scan.nextDouble();
+							scan.nextLine();
 							System.out.println();
 							
 							try {
 								accDriver = accServ.createNewAccount(startBalance, newAccountStatus, typeAccount, uDriver.getUserId());
-								System.out.println("Processing your request.");
+								System.out.println("Processing your request, your bank account is: "+ accDriver.getAccountNumer());
 							} catch (Exception e) {
 								e.printStackTrace();
 								System.out.println("Sorry we could not process your request");
@@ -210,6 +268,7 @@ public class MyBankingDriver {
 				}else if (uDriver.getUserRole() == 1) {
 					
 					//Role 1 means the user is an employee
+					System.out.println();
 					System.out.println("What would you like to do?");
 					System.out.println("1) Get users information");
 					System.out.println("2) Get accounts information");
@@ -298,6 +357,7 @@ public class MyBankingDriver {
 								accUsername = null;
 								newStatus = 0;
 								confirm = null;
+								System.out.println("Operation canceled.");
 								System.out.println();
 							}
 						break;

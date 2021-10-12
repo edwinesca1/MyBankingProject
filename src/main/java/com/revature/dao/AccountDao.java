@@ -24,4 +24,6 @@ public interface AccountDao {
 	int withdrawFromAccount(double amount, String username, String accNumber) throws SQLException;
 	
 	int depositIntoAccount(double amount, String username, String accNumber) throws SQLException;
+	
+	int transferBetweenAccounts (double amount, String username, String accNumber1, String accNumber2, String firstName, String lastName) throws SQLException;
 }

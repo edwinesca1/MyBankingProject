@@ -169,6 +169,42 @@ public class AccountDaoDB implements AccountDao{
 		
 		return rowsAffected;
 	}
+
+	@Override
+	public int transferBetweenAccounts(double amount, String username, String accNumber1, String accNumber2,
+			String firstName, String lastName) throws SQLException{
+		
+			Connection con = conUtil.getConnection();
+			
+			int rowsAffected = 0;
+			
+			String sql1 = "select * from table_account "
+					+ "where account_status = 1 and account_number = '"+ accNumber1 +"' and account_balance >= "+ amount +" "
+					+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
+			
+			String sql2 = "select * from table_account ta inner join table_user tu on tu.user_id = ta.account_user_id "
+					+ "where ta.account_status = 1 and ta.account_number = '"+ accNumber2 +"' "
+					+ "and tu.user_first_name = '"+ firstName +"' and tu.user_last_name = '"+ lastName +"'";
+			
+			Statement s1 = con.createStatement();
+			ResultSet rs1 = s1.executeQuery(sql1);
+			
+			Statement s2 = con.createStatement();
+			ResultSet rs2 =s2.executeQuery(sql2);
+			
+			if(rs1.next() && rs2.next()) {
+				
+				int rows1 = withdrawFromAccount(amount, username, accNumber1);
+				int rows2 = depositIntoAccount(amount, rs2.getString(11), accNumber2);
+				
+				if(rows1 != 0 && rows2 != 0) {
+					rowsAffected = 1;
+				}
+			}
+			
+			
+		return rowsAffected;
+	}
 	
 	
 }
