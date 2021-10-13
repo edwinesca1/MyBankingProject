@@ -15,7 +15,7 @@ public interface AccountDao {
 	
 	Account getAccountByusername(String username);
 	
-	void createAccount(Account acc) throws SQLException;
+	String createAccount(Account acc) throws SQLException;
 	
 	int updateAccountStatus(String aNum, String aUsername, int newType) throws SQLException;
 	
@@ -26,4 +26,6 @@ public interface AccountDao {
 	int depositIntoAccount(double amount, String username, String accNumber) throws SQLException;
 	
 	int transferBetweenAccounts (double amount, String username, String accNumber1, String accNumber2, String firstName, String lastName) throws SQLException;
+	
+	int transferBetweenAccounts (double amount, String username1, String username2, String accNumber1, String accNumber2) throws SQLException;
 }

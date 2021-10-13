@@ -41,6 +41,33 @@ public class UserDaoDB implements UserDao{
 		
 		return null;
 	}
+	
+	@Override
+	public List<User> getAllUsers(int r) {
+		List<User> userList = new ArrayList<User>();
+		
+		try {
+			//make the actual connection to the DB
+			Connection con = conUtil.getConnection();
+			
+			//Creating a simple statement
+			String sql = "SELECT * FROM table_user where user_role = " + r;
+			
+			//We need to create a statement with the sql string
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			//We have to loop through the resultset an create objects based off the return
+			while(rs.next()) {
+				userList.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+			}
+			return userList;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 	
 	@Override
@@ -74,7 +101,7 @@ public class UserDaoDB implements UserDao{
 	}
 
 	@Override
-	public void createUser(User u) throws SQLException {
+	public User createUser(User u) throws SQLException {
 		
 		Connection con = conUtil.getConnection();
 		
@@ -91,6 +118,9 @@ public class UserDaoDB implements UserDao{
 		ps.setString(5, u.getUserPassword());
 		
 		ps.execute();
+		
+		User u1 = getUserByUsername(u.getUserUserName()); 
+		return u1;
 		
 	}
 

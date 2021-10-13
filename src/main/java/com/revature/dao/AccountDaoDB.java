@@ -25,13 +25,13 @@ public class AccountDaoDB implements AccountDao{
 	}
 
 	@Override
-	public void createAccount(Account acc) throws SQLException {
+	public String createAccount(Account acc) throws SQLException {
 		
 		Connection con = conUtil.getConnection();
 		
 		//Another way to crate the statement for the query
 		String sql = "insert into table_account(account_balance, account_status, account_type_id, account_user_id) values"
-				+"(?,?,?,?)";
+				+"(?,?,?,?) returning account_number";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		
@@ -41,6 +41,12 @@ public class AccountDaoDB implements AccountDao{
 		ps.setInt(4, acc.getUserId());
 		
 		ps.execute();
+		
+		ResultSet rs = ps.getResultSet();
+		rs.next();
+		String newAccountNumber = rs.getString(1);
+		
+		return newAccountNumber;
 		
 	}
 
@@ -204,6 +210,42 @@ public class AccountDaoDB implements AccountDao{
 			
 			
 		return rowsAffected;
+	}
+
+	@Override
+	public int transferBetweenAccounts(double amount, String username1, String username2, String accNumber1,
+			String accNumber2) throws SQLException {
+		
+				Connection con = conUtil.getConnection();
+				
+				int rowsAffected = 0;
+				
+				String sql1 = "select * from table_account "
+						+ "where account_status = 1 and account_number = '"+ accNumber1 +"' and account_balance >= "+ amount +" "
+						+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username1 +"')";
+				
+				String sql2 = "select * from table_account "
+						+ "where account_status = 1 and account_number = '"+ accNumber2 +"' "
+						+ "and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username2 +"')";
+				
+				Statement s1 = con.createStatement();
+				ResultSet rs1 = s1.executeQuery(sql1);
+				
+				Statement s2 = con.createStatement();
+				ResultSet rs2 =s2.executeQuery(sql2);
+				
+				if(rs1.next() && rs2.next()) {
+					
+					int rows1 = withdrawFromAccount(amount, username1, accNumber1);
+					int rows2 = depositIntoAccount(amount, username2, accNumber2);
+					
+					if(rows1 != 0 && rows2 != 0) {
+						rowsAffected = 1;
+					}
+				}
+				
+				
+			return rowsAffected;
 	}
 	
 	

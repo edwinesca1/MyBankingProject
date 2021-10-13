@@ -31,19 +31,20 @@ public class AccountService {
 		}
 		
 		//create a new account 
-		public Account createNewAccount(double balance, int accStatus, int typeAccount, int userId) {
+		public String createNewAccount(double balance, int accStatus, int typeAccount, int userId) {
 			
 			Account a = new Account(balance, accStatus, typeAccount, userId);
+			String accVal = "";
 			
 			try {
-				accDao.createAccount(a);
+				accVal = accDao.createAccount(a);
 				Logging.logger.info("Request for new account completed");
 			}catch(SQLException e) {
 				Logging.logger.warn("New account request failed!");
 				throw new AccountRequestDeniedException();
 			}
 			
-			return a;
+			return accVal;
 		}
 		
 		public int updateAccountStatus(String accNumber, String username, int newStatus) {
@@ -95,6 +96,20 @@ public class AccountService {
 			
 			try {
 				rowsNumber = accDao.transferBetweenAccounts(amount, username, accNumber1, accNumber2, firstName, lastName);
+				Logging.logger.info(" Transfer between accounts transaction completed");
+			}catch(SQLException e) {
+				Logging.logger.warn("Transfer money request failed");
+			}
+			
+			return rowsNumber;
+		}
+		
+		public int transferBetweenAccounts(double amount, String username1, String username2, String accNumber1, String accNumber2) {
+				
+			int rowsNumber = 0;
+			
+			try {
+				rowsNumber = accDao.transferBetweenAccounts(amount, username1, username2, accNumber1, accNumber2);
 				Logging.logger.info(" Transfer between accounts transaction completed");
 			}catch(SQLException e) {
 				Logging.logger.warn("Transfer money request failed");

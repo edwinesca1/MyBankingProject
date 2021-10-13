@@ -22,19 +22,24 @@ public class UserService {
 		return uDao.getAllUsers();
 	}
 	
+	public List<User> getAllUsers(int r){
+		return uDao.getAllUsers(r);
+	}
+	
 	public User signUp(String first, String last, String email, String username, String password) throws UsernameAlreadyExistsException{
 		
 		User u = new User(first, last, email, username, password);
+		User u1 = new User();
 		
 		try {
-			uDao.createUser(u);
+			u1 = uDao.createUser(u);
 			Logging.logger.info("User successfully created");
 		}catch(SQLException e) {
 			Logging.logger.warn("User already exists in the data base");
 			throw new UsernameAlreadyExistsException();
 		}
 		
-		return u;
+		return u1;
 	}
 	
 	public User signIn(String username, String password) {

@@ -9,8 +9,10 @@ public interface UserDao {
 	
 	List<User> getAllUsers();
 	
+	List<User> getAllUsers(int r);
+	
 	User getUserByUsername(String userUserName);
 	
-	void createUser(User u) throws SQLException;
+	User createUser(User u) throws SQLException;
 	
 }
