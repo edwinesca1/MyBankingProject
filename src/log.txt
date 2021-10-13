@@ -132,3 +132,96 @@
 2021-10-12 20:28:45 WARN  Logging:53 - User tried to logIn with invalid credentials
 2021-10-12 20:28:54 INFO  Logging:56 - User logged in successfully
 2021-10-12 20:30:39 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:40:34 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:43:09 INFO  Logging:127 - Canceling request completed, the account is deactivated.
+2021-10-13 00:48:19 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:49:02 INFO  Logging:127 - Canceling request completed, the account is deactivated.
+2021-10-13 00:51:56 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:53:55 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:54:08 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 00:55:23 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 00:55:34 INFO  Logging:56 - User logged in successfully
+2021-10-13 00:55:49 INFO  Logging:127 - Canceling request completed, the account is deactivated.
+2021-10-13 01:25:49 INFO  Logging:56 - User logged in successfully
+2021-10-13 01:27:38 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 01:27:38 INFO  Logging:56 - User logged in successfully
+2021-10-13 01:28:19 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 01:28:19 INFO  Logging:56 - User logged in successfully
+2021-10-13 01:28:19 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:29:53 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:29:53 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:29:53 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:30:02 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:30:02 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:30:02 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:30:14 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:30:14 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:30:14 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:34:24 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:34:24 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:34:24 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:36:44 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:36:44 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:36:44 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:37:47 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:37:47 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:37:47 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:40:35 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:40:35 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:40:35 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:40:45 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:40:45 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:40:45 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:44:00 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:44:00 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:44:00 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 02:51:20 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 02:51:20 INFO  Logging:56 - User logged in successfully
+2021-10-13 02:51:20 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 03:00:16 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 03:00:16 INFO  Logging:56 - User logged in successfully
+2021-10-13 03:00:16 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 03:14:43 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 03:14:43 WARN  Logging:72 - Withdraw money request failed
+2021-10-13 03:14:43 INFO  Logging:56 - User logged in successfully
+2021-10-13 03:14:43 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 03:15:07 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 03:15:07 WARN  Logging:72 - Withdraw money request failed
+2021-10-13 03:15:07 INFO  Logging:56 - User logged in successfully
+2021-10-13 03:15:07 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 03:16:15 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 03:16:15 WARN  Logging:72 - Withdraw money request failed
+2021-10-13 03:16:15 INFO  Logging:56 - User logged in successfully
+2021-10-13 03:16:15 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 05:30:46 WARN  Logging:53 - User tried to logIn with invalid credentials
+2021-10-13 05:31:00 INFO  Logging:56 - User logged in successfully
+2021-10-13 05:33:24 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 05:33:51 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 05:34:07 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 05:34:36 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 05:35:07 INFO  Logging:84 - Deposit transaction completed
+2021-10-13 05:36:12 INFO  Logging:99 -  Transfer between accounts transaction completed
+2021-10-13 05:39:48 INFO  Logging:56 - User logged in successfully
+2021-10-13 05:41:18 INFO  Logging:56 - User logged in successfully
+2021-10-13 05:41:28 INFO  Logging:41 - Request for new account completed
+2021-10-13 05:43:36 INFO  Logging:67 - Updating user information request completed
+2021-10-13 05:48:35 INFO  Logging:56 - User logged in successfully
+2021-10-13 05:49:11 INFO  Logging:67 - Updating user information request completed
+2021-10-13 06:06:41 INFO  Logging:36 - User successfully created
+2021-10-13 06:07:28 INFO  Logging:41 - Request for new account completed
+2021-10-13 06:12:12 WARN  Logging:50 - User does not exist in the data base
+2021-10-13 06:12:29 INFO  Logging:56 - User logged in successfully
+2021-10-13 06:12:52 INFO  Logging:56 - User logged in successfully
+2021-10-13 06:14:13 INFO  Logging:56 - Updating account status request completed
+2021-10-13 06:16:23 INFO  Logging:56 - Updating account status request completed
+2021-10-13 06:17:37 INFO  Logging:56 - User logged in successfully
+2021-10-13 06:19:28 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 06:20:17 INFO  Logging:84 - Deposit transaction completed
+2021-10-13 06:20:57 INFO  Logging:113 -  Transfer between accounts transaction completed
+2021-10-13 06:22:30 INFO  Logging:56 - User logged in successfully
+2021-10-13 06:23:55 INFO  Logging:113 -  Transfer between accounts transaction completed
+2021-10-13 06:24:57 INFO  Logging:56 - Updating account status request completed
+2021-10-13 06:25:47 INFO  Logging:56 - Updating account status request completed
+2021-10-13 06:26:35 INFO  Logging:127 - Canceling request completed, the account is deactivated.
+2021-10-13 06:27:01 INFO  Logging:70 - Withdraw transaction completed
+2021-10-13 06:27:20 INFO  Logging:127 - Canceling request completed, the account is deactivated.

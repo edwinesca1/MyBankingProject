@@ -103,9 +103,19 @@ public class AccountDaoDB implements AccountDao{
 	}
 
 	@Override
-	public void cancelAccount(Account acc) throws SQLException {
-		// TODO Auto-generated method stub
+	public int cancelAccount(String username, String accNumber) throws SQLException {
 		
+		Connection con = conUtil.getConnection();
+		
+		String sql = "update table_account "
+				+ "set	account_status = 3"
+				+ " where account_number = '"+ accNumber
+				+ "' and account_balance = 0 and account_user_id = (select u.user_id from table_user u where u.user_username = '"+ username +"')";
+		
+		Statement s = con.createStatement();
+		int rowsAffected = s.executeUpdate(sql);
+		
+		return rowsAffected;
 	}
 
 	@Override

@@ -35,11 +35,6 @@ public class MyBankingDriver {
 		User uDriver = null;
 		Account accDriver = null;
 		
-		String regex = "[+-]?[0-9]+";
-
-	      // Create a Pattern object
-		Pattern p = Pattern.compile(regex);
-		
 		while(!done) {
 			
 			//Checking if there is a user signed in
@@ -91,7 +86,6 @@ public class MyBankingDriver {
 					try {
 						uDriver = uServ.signUp(first, last, email, username, password);
 						System.out.println("You may now sign in with the username: " + uDriver.getUserUserName());
-						System.out.println("Your user ID: " + uDriver.getUserId());
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println("Sorry we could not process your request");
@@ -111,13 +105,13 @@ public class MyBankingDriver {
 					System.out.println("2) Deposit money");
 					System.out.println("3) Transfer money");
 					System.out.println("4) Open an account");
-				  //System.out.println("5) Apply for a joint account");
+				    System.out.println("5) Update personal information");
 					System.out.println("To exit press number 9");
 					System.out.print("Enter the option number: ");
 					int opt = 0;
 					String val = scan.nextLine();
 					System.out.println();
-					if(val.equals("1") || val.equals("2") || val.equals("3") || val.equals("4") || val.equals("9")) {
+					if(val.equals("1") || val.equals("2") || val.equals("3") || val.equals("4") || val.equals("5") || val.equals("9")) {
 						opt = Integer.parseInt(val);	
 					}
 					
@@ -127,26 +121,31 @@ public class MyBankingDriver {
 						
 						//Withdraw money just available with active accounts
 						boolean comp = true;
-						System.out.print("Enter the amount for the transaction: ");
-						double aWithdraw = scan.nextDouble();
-						scan.nextLine();
 						System.out.print("Enter the account number from which you will withdraw the money: ");
 						String accNumber = scan.nextLine();
+						System.out.print("Enter the amount for the transaction: ");
+						double aWithdraw = 0;
+						String val1 = scan.nextLine();
+						System.out.println();
+						try { aWithdraw = Integer.parseInt(val1);}catch(NumberFormatException e) {aWithdraw = 0;System.out.print("Invalid input.");}
 						System.out.println("Processing your request.");
 						System.out.println();
 						
 						List<AccountsDisplay> acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accNumber);
 						for(AccountsDisplay accounts: acDisplay) {
-							comp = aWithdraw < accounts.getAccountBalance();
+							comp = aWithdraw <= accounts.getAccountBalance();
 						}
 							if(comp != true) {
 								System.out.println("Transaction canceled, insufficient funds");
-							}else {
+							}else if(aWithdraw <= 0) {System.out.print("Enter a valid amount.");}
+							else if(aWithdraw > 0){
 								try {
 									int rowsAffected = accServ.withdrawFromAccount(aWithdraw, uDriver.getUserUserName(), accNumber);
 									if(rowsAffected != 0) {
 										acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accNumber);
 										for(AccountsDisplay accounts2: acDisplay) {
+											System.out.println("Transaction completed.");
+											System.out.println();
 											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
 											System.out.println();
 										}
@@ -166,14 +165,16 @@ public class MyBankingDriver {
 					case 2:
 						
 						//Deposit transaction
-						System.out.print("Enter the amount for the transaction: ");
-						double aDeposit = scan.nextDouble();
-						scan.nextLine();
 						System.out.print("Enter the account number where the money will be deposit: ");
 						String accDNumber = scan.nextLine();
-						System.out.println("Processing your request.");
+						System.out.print("Enter the amount for the transaction: ");
+						double aDeposit = 0;
+						String val2 = scan.nextLine();
+						System.out.println();
+						try { aDeposit = Integer.parseInt(val2);}catch(NumberFormatException e) {System.out.print("Invalid input.");}
 						System.out.println();
 						
+						if(aDeposit > 0) {
 							try {
 								int rowsAffected = accServ.depositIntoAccount(aDeposit, uDriver.getUserUserName(), accDNumber);
 								if(rowsAffected != 0) {
@@ -192,15 +193,14 @@ public class MyBankingDriver {
 								System.out.println("Sorry we could not process your request");
 								System.out.println("Please try again later...");
 							}
-						
+						}else {
+							System.out.println("Enter a valid amount.");
+							}
 						break;
 						
 					case 3:
 						
 							//Transfer between account
-							System.out.print("Enter the amount for the transaction: ");
-							double aTransfer = scan.nextDouble();
-							scan.nextLine();
 							System.out.print("Enter the account number from which you will transfer the money: ");
 							String accTransferOrigin = scan.nextLine();
 							System.out.print("Enter the account number where the money will be transfered: ");
@@ -209,49 +209,106 @@ public class MyBankingDriver {
 							String accTransferOwnerFirstName = scan.nextLine();
 							System.out.print("Enter the Last name of the account owner: ");
 							String accTransferOwnerLastName = scan.nextLine();
-							System.out.println("Processing your request.");
+							System.out.print("Enter the amount for the transaction: ");
+							double aTransfer = 0;
+							String val3 = scan.nextLine();
+							System.out.println();
+							try { aTransfer = Integer.parseInt(val3);}catch(NumberFormatException e) {System.out.print("Invalid input.");}
 							System.out.println();
 							
-							try {
-								int numRows = accServ.transferBetweenAccounts(aTransfer, uDriver.getUserUserName(), accTransferOrigin, accTransferDest, accTransferOwnerFirstName, accTransferOwnerLastName);
-								if(numRows != 0) {
-									acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accTransferOrigin);
-									for(AccountsDisplay accounts2: acDisplay) {
-										System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
-										System.out.println();
+							if(aTransfer > 0) {
+								try {
+									int numRows = accServ.transferBetweenAccounts(aTransfer, uDriver.getUserUserName(), accTransferOrigin, accTransferDest, accTransferOwnerFirstName, accTransferOwnerLastName);
+									if(numRows != 0) {
+										acDisplay = accServ.getSpecificAccount(uDriver.getUserUserName(), accTransferOrigin);
+										for(AccountsDisplay accounts2: acDisplay) {
+											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
+											System.out.println();
+										}
 									}
+								}catch(Exception e) {
+									e.printStackTrace();
+									System.out.println("Sorry we could not process your request");
+									System.out.println("Please try again later...");
 								}
-							}catch(Exception e) {
-								e.printStackTrace();
-								System.out.println("Sorry we could not process your request");
-								System.out.println("Please try again later...");
+							}else {
+								System.out.println("Enter a valid amount.");
 							}
-							
-							
+
 						break;
 						
 					case 4:
 							//Applying for a new account
 							int newAccountStatus = 0; 
-							System.out.println("Select the type of account you want to apply");
-							System.out.print("press 1 for Checking account, press 2 for Joint account: ");
+							System.out.println("You are about to apply for a new account");
+							System.out.print("press 1 to confirm the account: ");
 							int typeAccount = scan.nextInt();
-							System.out.print("Enter the account opening balance: ");
-							double startBalance = scan.nextDouble();
 							scan.nextLine();
+							System.out.print("Enter the account opening balance: ");
+							double startBalance = 0;
+							String val4 = scan.nextLine();
+							System.out.println();
+							try { startBalance = Integer.parseInt(val4);}catch(NumberFormatException e) {startBalance = 0;System.out.print("Invalid input.");}
 							System.out.println();
 							
-							try {
-								String newAccountNumber = accServ.createNewAccount(startBalance, newAccountStatus, typeAccount, uDriver.getUserId());
-								System.out.println("Processing your request, your new bank account is: "+ newAccountNumber);
-							} catch (Exception e) {
-								//e.printStackTrace();
-								System.out.println("Sorry we could not process your request");
-								System.out.println("Please try again later...");
+							if(startBalance > 0) {
+								try {
+									String newAccountNumber = accServ.createNewAccount(startBalance, newAccountStatus, typeAccount, uDriver.getUserId());
+									System.out.println("Processing your request, your new bank account is: "+ newAccountNumber);
+								} catch (Exception e) {
+									//e.printStackTrace();
+									System.out.println("Sorry we could not process your request");
+									System.out.println("Please try again later...");
+								}
+							}else {
+								System.out.println("Enter a valid amount.");
 							}
 						break;
 						
 					case 5:
+						
+						//Updating user personal information 
+						System.out.println("---Your current information---");
+						System.out.println("First Name: "+uDriver.getUserFirtsName());
+						System.out.println("Last Name: "+uDriver.getUserLastName());
+						System.out.println("Email: "+uDriver.getUserEmail());
+						System.out.println("Username: "+uDriver.getUserUserName());
+						System.out.println();
+						System.out.println("---Update your information---");
+						System.out.print("First Name: ");
+						String newFName = scan.nextLine();
+						System.out.print("Last Name: ");
+						String newLName = scan.nextLine();
+						System.out.print("Email: ");
+						String newEmail = scan.nextLine();
+						System.out.print("Password: ");
+						String newPassword = scan.nextLine();
+						
+						if(newFName == null || newFName.isBlank()) {newFName = uDriver.getUserFirtsName();}
+						if(newLName == null || newLName.isBlank()) {newLName = uDriver.getUserLastName();}
+						if(newEmail == null || newEmail.isBlank()) {newEmail = uDriver.getUserEmail();}
+						if(newPassword == null || newPassword.isBlank()) {newPassword = uDriver.getUserPassword();}
+						
+						System.out.println("Enter your current password to confirm your identity: ");
+						String validPassword = scan.nextLine();
+						
+						if(validPassword.equals(uDriver.getUserPassword()))
+						{
+							try {
+							int rowsUserUpdated = uServ.updateUserInfo(uDriver.getUserId(), newFName, newLName, newEmail, newPassword);
+							
+								if(rowsUserUpdated != 0) {
+									System.out.println("Your information was updated succesfully.");
+								}
+							
+							}catch(Exception e) {
+								System.out.println();
+								System.out.println("Sorry we could not process your request");
+								System.out.println("Please try again later...");
+							}
+						}else {
+							System.out.println("Invalid credentials, we could not process your request.");
+						}
 						break;
 						
 					case 9:
@@ -313,7 +370,7 @@ public class MyBankingDriver {
 						break;
 						
 					case 3:
-							//Approving or denying new accounts requests, 0 means pending, 1 means approved (it's available for transactions), 2 means canceled
+							//Approving or denying new accounts requests, 0 means pending, 1 means approved/active (it's available for transactions), 2 means denied
 							//Listing all the pending approval accounts
 							List<AccountsDisplay> acDisplay2 = accServ.getAllAccountsInfo(0);
 							System.out.println();
@@ -332,10 +389,10 @@ public class MyBankingDriver {
 							System.out.print("Enter the username of the account owner: ");
 							String accUsername = scan.nextLine();
 							System.out.print("Press 1 to Approve account, press 2 to deny account: ");
-							int newStatus = scan.nextInt();
-							newStatus = (newStatus == 1) ? 1 : 2;
-							scan.nextLine(); // after using nextInt(), next() or other next method leaves a blank jump line, this helps to consume that and avoid troubles.
+							int newStatus = 0;
+							String val = scan.nextLine();
 							System.out.println();
+							try { newStatus = Integer.parseInt(val);}catch(NumberFormatException e) {System.out.print("Invalid input.");}
 							System.out.println("Are you sure you want to perform this action?");
 							System.out.print("Press 'Y' to continue, press 'N' to cancel: ");
 							String confirm = (scan.nextLine()).toLowerCase();
@@ -414,7 +471,7 @@ public class MyBankingDriver {
 						
 						List<AccountsDisplay> acDisplay = accServ.getSpecificAccount(accUsername, accNumber);
 						for(AccountsDisplay accounts: acDisplay) {
-							comp = aWithdraw < accounts.getAccountBalance();
+							comp = aWithdraw <= accounts.getAccountBalance();
 						}
 							if(comp != true) {
 								System.out.println("Transaction canceled, insufficient funds");
@@ -425,7 +482,6 @@ public class MyBankingDriver {
 									if(rowsAffected != 0) {
 										acDisplay = accServ.getSpecificAccount(accUsername, accNumber);
 										for(AccountsDisplay accounts2: acDisplay) {
-											
 											System.out.println("Transaction completed.");
 											System.out.println();
 											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
@@ -518,6 +574,9 @@ public class MyBankingDriver {
 											System.out.println("The account " + accounts2.getAccountNumber() + " current balance is: "+accounts2.getAccountBalance());
 											System.out.println();
 										}
+									}else {
+										System.out.println("Sorry we could not process your request");
+										System.out.println("Please try again later...");
 									}
 								}catch(Exception e) {
 									e.printStackTrace();
@@ -621,7 +680,7 @@ public class MyBankingDriver {
 						break;
 						
 					case 6:
-						//Approving or denying new accounts requests, 0 means pending, 1 means approved (it's available for transactions), 2 means denied, 3 means canceled
+						//Approving or denying new accounts requests, 0 means pending, 1 means approved/active (it's available for transactions), 2 means denied, 3 means canceled
 						//Listing all the pending approval accounts
 						List<AccountsDisplay> acDisplay2 = accServ.getAllAccountsInfo(0);
 						System.out.println();
@@ -673,6 +732,34 @@ public class MyBankingDriver {
 						break;
 						
 					case 7:
+						//Canceling an account only for admins
+						//Verify there is no money in the account, and is active, use the account number and the account owner username complete the transaction
+						System.out.print("Enter the account number you want to cancel: ");
+						String accNumberCancel = scan.nextLine();
+						System.out.print("Enter the account owner username: ");
+						String accUsernameCancel = scan.nextLine();
+						System.out.println("Are you sure you want to perform this action?");
+						System.out.print("Press 'Y' to continue, press 'N' to cancel: ");
+						String confirm1 = (scan.nextLine()).toLowerCase();
+						System.out.println();
+						if(confirm1.equals("y")) {
+							int rowsAffected = accServ.cancelAccount(accUsernameCancel, accNumberCancel);
+							if(rowsAffected != 0) {
+								System.out.println();
+								System.out.println("Operation completed.");
+								System.out.println();
+								}else {
+									System.out.println("Sorry, We could not process the request.");
+									System.out.println();
+								}
+						}else {
+							accNumberCancel = null;
+							accUsernameCancel = null;
+							newStatus = 0;
+							confirm1 = null;
+							System.out.println("Operation canceled.");
+							System.out.println();
+						}
 						break;
 						
 					case 9:

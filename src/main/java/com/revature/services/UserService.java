@@ -58,4 +58,18 @@ public class UserService {
 		}		
 	}
 	
+	public int updateUserInfo(int id, String firstName, String lastName, String email, String password) throws SQLException {
+		
+		int rowsUserUpdate = 0;
+		
+		try {
+			rowsUserUpdate = uDao.updateUserInfo(id, firstName, lastName, email, password);
+			Logging.logger.info("Updating user information request completed");
+		}catch(SQLException e) {
+			Logging.logger.warn("Updating user information request failed");
+		}
+		
+		return rowsUserUpdate;
+	}
+	
 }

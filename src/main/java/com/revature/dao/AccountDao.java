@@ -19,7 +19,7 @@ public interface AccountDao {
 	
 	int updateAccountStatus(String aNum, String aUsername, int newType) throws SQLException;
 	
-	void cancelAccount(Account acc) throws SQLException;
+	int cancelAccount(String username, String accNumber) throws SQLException;
 	
 	int withdrawFromAccount(double amount, String username, String accNumber) throws SQLException;
 	

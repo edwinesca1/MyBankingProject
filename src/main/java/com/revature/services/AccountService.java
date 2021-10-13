@@ -117,4 +117,18 @@ public class AccountService {
 			
 			return rowsNumber;
 		}
+		
+		public int cancelAccount(String username, String accNumber) {
+			
+			int rowsAffectedUpdate = 0;
+			
+			try {
+				rowsAffectedUpdate = accDao.cancelAccount(username, accNumber);
+				Logging.logger.info("Canceling request completed, the account is deactivated.");
+			}catch(SQLException e) {
+				Logging.logger.warn("Canceling account request failed");
+			}
+			
+			return rowsAffectedUpdate;
+		}
 }

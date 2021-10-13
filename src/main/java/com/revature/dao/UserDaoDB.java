@@ -124,5 +124,25 @@ public class UserDaoDB implements UserDao{
 		
 	}
 
+	@Override
+	public int updateUserInfo(int id, String firstName, String lastName, String email, String password)
+			throws SQLException {
+		
+		Connection con = conUtil.getConnection();
+		
+		String sql = "update table_user "
+				+ "set user_first_name = '"+ firstName +"',"
+				+ "	user_last_name = '"+ lastName +"',"
+				+ "	user_email = '"+ email +"',"
+				+ "	user_password = '"+ password +"'"
+				+ "where user_id = "+ id ;
+		
+		Statement s = con.createStatement();
+		int rowsAffected = s.executeUpdate(sql);
+		
+		return rowsAffected;
+		
+	}
+
 	
 }
